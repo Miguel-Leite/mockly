@@ -6,7 +6,7 @@ export interface MockEndpoint {
   method: HttpMethod;
   response: object;
   delay?: number;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface CreateEndpointDto {
@@ -34,6 +34,6 @@ export interface RequestLog {
   path: string;
   method: string;
   status: number;
-  timestamp: Date;
+  timestamp: string;
   responseTime?: number;
 }

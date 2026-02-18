@@ -76,6 +76,11 @@ router.delete('/endpoints/:id', (req: Request, res: Response) => {
   res.status(204).send();
 });
 
+router.delete('/endpoints', (_req: Request, res: Response) => {
+  endpointModel.clear();
+  res.json({ message: 'All endpoints cleared and reset to defaults' });
+});
+
 router.get('/logs', (_req: Request, res: Response) => {
   const logs = logger.getLogs();
   res.json(logs);

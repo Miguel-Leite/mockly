@@ -35,7 +35,7 @@ export class MockServer {
           path: req.path,
           method: req.method,
           status: res.statusCode,
-          timestamp: new Date(),
+          timestamp: new Date().toISOString(),
           responseTime: Date.now() - start,
         });
 
