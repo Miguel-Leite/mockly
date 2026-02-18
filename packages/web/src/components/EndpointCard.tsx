@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Trash2, Play, Copy, Check } from 'lucide-react';
+import { Trash2, Play, Copy, Check, Pencil } from 'lucide-react';
 import type { MockEndpoint } from '@/types';
 import { Button } from '@/components/ui/button';
 import { testEndpoint } from '@/services/api';
+import { EndpointForm } from './EndpointForm';
 
 interface EndpointCardProps {
   endpoint: MockEndpoint;
   onDelete: (id: string) => void;
+  onUpdate: (id: string, dto: Partial<MockEndpoint>) => Promise<void>;
   onTest: (endpoint: MockEndpoint, response: object) => void;
   onTestError: (endpoint: MockEndpoint, error: string) => void;
 }
@@ -18,7 +20,7 @@ const methodColors: Record<string, string> = {
   DELETE: 'bg-red-500/20 text-red-400',
 };
 
-export function EndpointCard({ endpoint, onDelete, onTest, onTestError }: EndpointCardProps) {
+export function EndpointCard({ endpoint, onDelete, onUpdate, onTest, onTestError }: EndpointCardProps) {
   const [testing, setTesting] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -85,6 +87,17 @@ export function EndpointCard({ endpoint, onDelete, onTest, onTestError }: Endpoi
           >
             <Play className="h-4 w-4" />
           </Button>
+          <EndpointForm
+            endpoint={endpoint}
+            onSubmit={async (dto) => {
+              await onUpdate(endpoint.id, dto);
+            }}
+            trigger={
+              <Button variant="ghost" size="icon" className="h-8 w-8" title="Edit endpoint">
+                <Pencil className="h-4 w-4" />
+              </Button>
+            }
+          />
           <Button
             variant="ghost"
             size="icon"

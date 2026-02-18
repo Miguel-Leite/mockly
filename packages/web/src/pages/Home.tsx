@@ -1,14 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
+import { FileText } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { EndpointCard } from '@/components/EndpointCard';
 import { EndpointForm } from '@/components/EndpointForm';
 import { ResponseViewer, ErrorViewer } from '@/components/ResponseViewer';
-import { endpointsApi } from '@/services/api';
-import type { MockEndpoint, CreateEndpointDto } from '@/types';
+import { LogsViewer } from '@/components/LogsViewer';
+import { endpointsApi, logsApi } from '@/services/api';
+import type { MockEndpoint, CreateEndpointDto, RequestLog } from '@/types';
+import { Button } from '@/components/ui/button';
 
 export function Home() {
   const [endpoints, setEndpoints] = useState<MockEndpoint[]>([]);
+  const [logs, setLogs] = useState<RequestLog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showLogs, setShowLogs] = useState(false);
   const [selectedResponse, setSelectedResponse] = useState<{ endpoint: MockEndpoint; response: object } | null>(null);
   const [errorResponse, setErrorResponse] = useState<{ endpoint: MockEndpoint; error: string } | null>(null);
 
@@ -23,9 +28,22 @@ export function Home() {
     }
   }, []);
 
+  const fetchLogs = useCallback(async () => {
+    try {
+      const data = await logsApi.getAll();
+      setLogs(data);
+    } catch (err) {
+      console.error('Failed to fetch logs:', err);
+    }
+  }, []);
+
   useEffect(() => {
     fetchEndpoints();
-  }, [fetchEndpoints]);
+    fetchLogs();
+    
+    const interval = setInterval(fetchLogs, 3000);
+    return () => clearInterval(interval);
+  }, [fetchEndpoints, fetchLogs]);
 
   const handleCreate = async (dto: CreateEndpointDto) => {
     try {
@@ -33,6 +51,15 @@ export function Home() {
       await fetchEndpoints();
     } catch (err) {
       console.error('Failed to create endpoint:', err);
+    }
+  };
+
+  const handleUpdate = async (id: string, dto: Partial<CreateEndpointDto>) => {
+    try {
+      await endpointsApi.update(id, dto);
+      await fetchEndpoints();
+    } catch (err) {
+      console.error('Failed to update endpoint:', err);
     }
   };
 
@@ -45,20 +72,21 @@ export function Home() {
     }
   };
 
+  const handleClearLogs = async () => {
+    try {
+      await logsApi.clear();
+      setLogs([]);
+    } catch (err) {
+      console.error('Failed to clear logs:', err);
+    }
+  };
+
   const handleTest = (endpoint: MockEndpoint, response: object) => {
     setSelectedResponse({ endpoint, response });
   };
 
   const handleTestError = (endpoint: MockEndpoint, error: string) => {
     setErrorResponse({ endpoint, error });
-  };
-
-  const handleTestCard = (endpoint: MockEndpoint, response: object) => {
-    handleTest(endpoint, response);
-  };
-
-  const handleTestErrorCard = (endpoint: MockEndpoint, error: string) => {
-    handleTestError(endpoint, error);
   };
 
   return (
@@ -72,7 +100,23 @@ export function Home() {
               {endpoints.length} endpoint{endpoints.length !== 1 ? 's' : ''} configured
             </p>
           </div>
-          <EndpointForm onSubmit={handleCreate} />
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2"
+              onClick={() => setShowLogs(true)}
+            >
+              <FileText className="h-4 w-4" />
+              Logs
+              {logs.length > 0 && (
+                <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary-600 rounded-full">
+                  {logs.length}
+                </span>
+              )}
+            </Button>
+            <EndpointForm onSubmit={handleCreate} />
+          </div>
         </div>
 
         {loading ? (
@@ -91,8 +135,9 @@ export function Home() {
                 key={endpoint.id}
                 endpoint={endpoint}
                 onDelete={handleDelete}
-                onTest={handleTestCard}
-                onTestError={handleTestErrorCard}
+                onUpdate={handleUpdate}
+                onTest={handleTest}
+                onTestError={handleTestError}
               />
             ))}
           </div>
@@ -111,6 +156,14 @@ export function Home() {
             endpoint={errorResponse.endpoint}
             error={errorResponse.error}
             onClose={() => setErrorResponse(null)}
+          />
+        )}
+
+        {showLogs && (
+          <LogsViewer
+            logs={logs}
+            onClose={() => setShowLogs(false)}
+            onClear={handleClearLogs}
           />
         )}
       </main>
