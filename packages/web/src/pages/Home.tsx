@@ -5,7 +5,9 @@ import { EndpointCard } from '@/components/EndpointCard';
 import { EndpointForm } from '@/components/EndpointForm';
 import { ResponseViewer, ErrorViewer } from '@/components/ResponseViewer';
 import { LogsViewer } from '@/components/LogsViewer';
+import { Toaster } from '@/components/ui/toaster';
 import { endpointsApi, logsApi } from '@/services/api';
+import { toastError, toastSuccess } from '@/lib/toast';
 import type { MockEndpoint, CreateEndpointDto, RequestLog } from '@/types';
 import { Button } from '@/components/ui/button';
 
@@ -16,17 +18,25 @@ export function Home() {
   const [showLogs, setShowLogs] = useState(false);
   const [selectedResponse, setSelectedResponse] = useState<{ endpoint: MockEndpoint; response: object } | null>(null);
   const [errorResponse, setErrorResponse] = useState<{ endpoint: MockEndpoint; error: string } | null>(null);
+  const [serverConnected, setServerConnected] = useState(true);
 
   const fetchEndpoints = useCallback(async () => {
     try {
       const data = await endpointsApi.getAll();
       setEndpoints(data);
+      if (!serverConnected) {
+        setServerConnected(true);
+      }
     } catch (err) {
       console.error('Failed to fetch endpoints:', err);
+      if (serverConnected) {
+        setServerConnected(false);
+        toastError('Server disconnected', 'Unable to connect to mock server');
+      }
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [serverConnected]);
 
   const fetchLogs = useCallback(async () => {
     try {
@@ -49,8 +59,10 @@ export function Home() {
     try {
       await endpointsApi.create(dto);
       await fetchEndpoints();
+      toastSuccess('Endpoint created', `Created ${dto.method} ${dto.path}`);
     } catch (err) {
       console.error('Failed to create endpoint:', err);
+      toastError('Failed to create endpoint', 'Please try again');
     }
   };
 
@@ -58,8 +70,10 @@ export function Home() {
     try {
       await endpointsApi.update(id, dto);
       await fetchEndpoints();
+      toastSuccess('Endpoint updated', 'Changes saved successfully');
     } catch (err) {
       console.error('Failed to update endpoint:', err);
+      toastError('Failed to update endpoint', 'Please try again');
     }
   };
 
@@ -67,8 +81,10 @@ export function Home() {
     try {
       await endpointsApi.delete(id);
       setEndpoints((prev) => prev.filter((ep) => ep.id !== id));
+      toastSuccess('Endpoint deleted', 'Endpoint removed successfully');
     } catch (err) {
       console.error('Failed to delete endpoint:', err);
+      toastError('Failed to delete endpoint', 'Please try again');
     }
   };
 
@@ -76,8 +92,10 @@ export function Home() {
     try {
       await logsApi.clear();
       setLogs([]);
+      toastSuccess('Logs cleared', 'All logs have been cleared');
     } catch (err) {
       console.error('Failed to clear logs:', err);
+      toastError('Failed to clear logs', 'Please try again');
     }
   };
 
@@ -91,7 +109,7 @@ export function Home() {
 
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100">
-      <Header />
+      <Header serverConnected={serverConnected} />
       <main className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -122,6 +140,11 @@ export function Home() {
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <div className="w-6 h-6 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : !serverConnected ? (
+          <div className="text-center py-12">
+            <p className="text-red-400 mb-4">Unable to connect to server</p>
+            <p className="text-sm text-neutral-600">Make sure the mock server is running on localhost:3001</p>
           </div>
         ) : endpoints.length === 0 ? (
           <div className="text-center py-12">
@@ -167,6 +190,7 @@ export function Home() {
           />
         )}
       </main>
+      <Toaster />
     </div>
   );
 }
