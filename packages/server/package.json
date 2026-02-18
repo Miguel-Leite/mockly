@@ -4,21 +4,45 @@
   "description": "Mock APIs rapidinho, desenvolva sem esperar o backend",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "mock",
     "api",
     "server",
-    "development"
+    "development",
+    "frontend",
+    "testing",
+    "faker"
   ],
-  "author": "",
+  "author": "Miguel Leite",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Miguel-Leite/mockly.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Miguel-Leite/mockly/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@faker-js/faker": "^10.3.0",
     "cors": "^2.8.5",

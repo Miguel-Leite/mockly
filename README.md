@@ -280,6 +280,25 @@ DELETE http://localhost:3001/api/logs
 - **React Hooks** - Ready-to-use hooks for React applications
 - **Persistent Storage** - Save endpoints to file or database
 
+## Publishing
+
+To publish this package to npm:
+
+```bash
+# Login to npm (if not already logged in)
+npm login
+
+# Build the package
+cd packages/server
+npm run build
+
+# Publish
+npm publish
+
+# Or for scoped packages (if using @scope)
+npm publish --access public
+```
+
 ## License
 
 MIT License - see the [LICENSE](LICENSE) file for details.
