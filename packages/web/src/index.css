@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    border-color: theme('colors.neutral.800');
+  }
+  
+  body {
+    background-color: theme('colors.neutral.950');
+    color: theme('colors.neutral.100');
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
