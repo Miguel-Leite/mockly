@@ -276,9 +276,53 @@ DELETE http://localhost:3001/api/logs
 
 ## Coming Soon
 
-- **Web Interface** - Visual dashboard to manage endpoints
 - **React Hooks** - Ready-to-use hooks for React applications
 - **Persistent Storage** - Save endpoints to file or database
+
+## Development
+
+### Prerequisites
+
+- Node.js 18+
+- npm 9+
+
+### Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Build all packages
+npm run build
+```
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run start` | Start server + web UI + browser |
+| `npm run server` | Start only the mock server |
+| `npm run web` | Start only the web UI |
+| `npm run storybook` | Start Storybook (http://localhost:6006) |
+| `npm run build-storybook` | Build Storybook static |
+| `npm run test` | Run server tests |
+
+### Storybook
+
+The project includes Storybook for developing and documenting UI components.
+
+```bash
+# Start Storybook development server
+npm run storybook
+
+# Build static Storybook
+npm run build-storybook
+```
+
+Components documented:
+- Button (variants: default, destructive, outline, secondary, ghost, link)
+- Dialog (with forms, destructive confirmations)
+- Toaster (dark/light themes)
 
 ## Publishing
 

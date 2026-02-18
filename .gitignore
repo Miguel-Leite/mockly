@@ -10,3 +10,4 @@ coverage/
 .idea/
 context.md
 INTRODUCTION.md
+packages/web/storybook-static/
