@@ -1,0 +1,27 @@
+{
+  "name": "mockly-cli",
+  "version": "1.0.0",
+  "description": "Mockly CLI - Orchestrate mock server and web interface",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "mockly": "./dist/index.js"
+  },
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": ["mock", "api", "cli", "server"],
+  "author": "Miguel Leite",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "open": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

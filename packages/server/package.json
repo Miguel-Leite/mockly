@@ -4,6 +4,9 @@
   "description": "Mock APIs rapidinho, desenvolva sem esperar o backend",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "mockly-server": "./dist/index.js"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

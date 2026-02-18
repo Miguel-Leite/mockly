@@ -1,0 +1,20 @@
+{
+  "name": "mockly",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mock APIs rapidinho, desenvolva sem esperar o backend",
+  "scripts": {
+    "dev": "cd packages/cli && npm run dev -- start",
+    "start": "cd packages/cli && npm run dev -- start",
+    "server": "cd packages/cli && npm run dev -- server",
+    "web": "cd packages/cli && npm run dev -- web",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspace=packages/server"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "keywords": ["mock", "api", "server", "development", "frontend"],
+  "author": "Miguel Leite",
+  "license": "MIT"
+}
