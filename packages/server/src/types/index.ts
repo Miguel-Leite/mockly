@@ -48,13 +48,20 @@ export interface SchemaRef {
   tableId: string;
 }
 
+export type ResponseType = 'json' | 'ts';
+
 export interface MockEndpoint {
   id: string;
   path: string;
   method: HttpMethod;
   response: object;
+  responseType?: ResponseType;
   delay?: number;
   schemaRef?: SchemaRef;
+  storedData?: object[];
+  payloadJson?: object;
+  payloadSchemaRef?: SchemaRef;
+  payloadType?: ResponseType;
   createdAt: string;
 }
 
@@ -62,16 +69,26 @@ export interface CreateEndpointDto {
   path: string;
   method: HttpMethod;
   response: object;
+  responseType?: ResponseType;
   delay?: number;
   schemaRef?: SchemaRef;
+  storedData?: object[];
+  payloadJson?: object;
+  payloadSchemaRef?: SchemaRef;
+  payloadType?: ResponseType;
 }
 
 export interface UpdateEndpointDto {
   path?: string;
   method?: HttpMethod;
   response?: object;
+  responseType?: ResponseType;
   delay?: number;
   schemaRef?: SchemaRef;
+  storedData?: object[];
+  payloadJson?: object;
+  payloadSchemaRef?: SchemaRef;
+  payloadType?: ResponseType;
 }
 
 export interface MockServerConfig {

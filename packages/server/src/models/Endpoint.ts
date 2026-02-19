@@ -72,8 +72,13 @@ export class EndpointModel {
       path: dto.path.startsWith('/') ? dto.path : `/${dto.path}`,
       method: dto.method,
       response: dto.response,
+      responseType: dto.responseType,
       delay: dto.delay || 0,
       schemaRef: dto.schemaRef,
+      storedData: dto.storedData,
+      payloadJson: dto.payloadJson,
+      payloadSchemaRef: dto.payloadSchemaRef,
+      payloadType: dto.payloadType,
       createdAt: new Date().toISOString(),
     };
     this.endpoints.set(id, endpoint);
@@ -104,8 +109,13 @@ export class EndpointModel {
       path: dto.path ? (dto.path.startsWith('/') ? dto.path : `/${dto.path}`) : endpoint.path,
       method: dto.method || endpoint.method,
       response: dto.response || endpoint.response,
+      responseType: dto.responseType !== undefined ? dto.responseType : endpoint.responseType,
       delay: dto.delay !== undefined ? dto.delay : endpoint.delay,
       schemaRef: dto.schemaRef !== undefined ? dto.schemaRef : endpoint.schemaRef,
+      storedData: dto.storedData !== undefined ? dto.storedData : endpoint.storedData,
+      payloadJson: dto.payloadJson !== undefined ? dto.payloadJson : endpoint.payloadJson,
+      payloadSchemaRef: dto.payloadSchemaRef !== undefined ? dto.payloadSchemaRef : endpoint.payloadSchemaRef,
+      payloadType: dto.payloadType !== undefined ? dto.payloadType : endpoint.payloadType,
     };
     this.endpoints.set(id, updated);
     storage.updateEndpoint(id, updated);
