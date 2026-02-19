@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { FileText } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { FileText, Database } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { EndpointCard } from '@/components/EndpointCard';
 import { EndpointForm } from '@/components/EndpointForm';
@@ -50,7 +51,7 @@ export function Home() {
   useEffect(() => {
     fetchEndpoints();
     fetchLogs();
-    
+
     const interval = setInterval(fetchLogs, 3000);
     return () => clearInterval(interval);
   }, [fetchEndpoints, fetchLogs]);
@@ -119,9 +120,15 @@ export function Home() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Link to="/schemas">
+              <Button variant="outline" size="sm" className="gap-2">
+                <Database className="h-4 w-4" />
+                Diagrams
+              </Button>
+            </Link>
+            <Button
+              variant="outline"
+              size="sm"
               className="gap-2"
               onClick={() => setShowLogs(true)}
             >

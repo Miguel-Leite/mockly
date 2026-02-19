@@ -1,14 +1,15 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import type { MockEndpoint } from '../types';
+import type { MockEndpoint, Schema } from '../types';
 
 interface StorageData {
   endpoints: MockEndpoint[];
+  schemas: Schema[];
 }
 
 const DEFAULT_DATA_DIR = path.join(os.homedir(), '.mockly');
-const DEFAULT_FILE = 'endpoints.json';
+const DEFAULT_FILE = 'data.json';
 
 export class Storage {
   private dataDir: string;
@@ -18,7 +19,7 @@ export class Storage {
   constructor() {
     this.dataDir = process.env.MOCKLY_DATA_DIR || DEFAULT_DATA_DIR;
     this.filePath = path.join(this.dataDir, DEFAULT_FILE);
-    this.data = { endpoints: [] };
+    this.data = { endpoints: [], schemas: [] };
     this.ensureDataDir();
     this.load();
   }
@@ -39,7 +40,7 @@ export class Storage {
       }
     } catch (error) {
       console.warn('[Storage] Failed to load data, using empty state:', error);
-      this.data = { endpoints: [] };
+      this.data = { endpoints: [], schemas: [] };
     }
   }
 
@@ -82,6 +83,44 @@ export class Storage {
   clear(): void {
     this.data.endpoints = [];
     this.save();
+  }
+
+  // Schema methods
+  getSchemas(): Schema[] {
+    return this.data.schemas || [];
+  }
+
+  getSchema(id: string): Schema | undefined {
+    return this.data.schemas.find(s => s.id === id);
+  }
+
+  addSchema(schema: Schema): void {
+    this.data.schemas.push(schema);
+    this.save();
+  }
+
+  updateSchema(id: string, schema: Schema): void {
+    const index = this.data.schemas.findIndex(s => s.id === id);
+    if (index !== -1) {
+      this.data.schemas[index] = schema;
+      this.save();
+    }
+  }
+
+  deleteSchema(id: string): void {
+    this.data.schemas = this.data.schemas.filter(s => s.id !== id);
+    this.save();
+  }
+
+  updateTablePosition(schemaId: string, tableId: string, position: { x: number; y: number }): void {
+    const schema = this.data.schemas.find(s => s.id === schemaId);
+    if (schema) {
+      const table = schema.tables.find(t => t.id === tableId);
+      if (table) {
+        table.position = position;
+        this.save();
+      }
+    }
   }
 
   getFilePath(): string {

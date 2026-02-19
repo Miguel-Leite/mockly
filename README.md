@@ -274,9 +274,77 @@ GET http://localhost:3001/api/logs
 DELETE http://localhost:3001/api/logs
 ```
 
+## Diagrams & Schemas
+
+Create visual diagrams to model your data and generate mock data automatically.
+
+### Using the Web UI
+
+1. Start the server: `npm run dev`
+2. Open http://localhost:5173
+3. Click **Diagrams** in the header
+4. Create a new Schema (e.g., "E-commerce")
+5. Add tables and define fields with types (string, number, date, email, uuid, etc.)
+6. Create relationships between tables (one-to-one, one-to-many, many-to-many)
+
+### Generate Data from Schemas
+
+When creating an endpoint, select a schema/table to automatically generate the response JSON:
+
+```bash
+# Generate data from a table
+POST http://localhost:3001/api/schemas/:id/generate
+Content-Type: application/json
+
+{
+  "tableId": "table-uuid",
+  "count": 5
+}
+```
+
+Returns an array of generated records based on the table schema.
+
+### Schema Types
+
+| Type | Description |
+|------|-------------|
+| `string` | Random word |
+| `number` | Random number |
+| `boolean` | True or false |
+| `date` | Recent date |
+| `email` | Fake email |
+| `uuid` | UUID v4 |
+| `phone` | Phone number |
+| `address` | Street address |
+| `url` | URL |
+| `custom` | Custom faker template |
+
+### Schema API
+
+```bash
+# Get all schemas
+GET http://localhost:3001/api/schemas
+
+# Create schema
+POST http://localhost:3001/api/schemas
+{ "name": "My Schema" }
+
+# Add table
+POST http://localhost:3001/api/schemas/:id/tables
+{ "name": "users", "position": { "x": 100, "y": 100 } }
+
+# Add field
+POST http://localhost:3001/api/schemas/:id/tables/:tableId/fields
+{ "name": "email", "type": "email", "required": true }
+
+# Add relation
+POST http://localhost:3001/api/schemas/:id/relations
+{ "fromTable": "table-id-1", "toTable": "table-id-2", "type": "one-to-many" }
+```
+
 ## Coming Soon
 
-- **Persistent Storage** - Save endpoints to file or database
+- **JWT Authentication** - Protect endpoints with JWT login routes
 
 ## Development
 

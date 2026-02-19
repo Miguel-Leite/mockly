@@ -10,6 +10,8 @@ import {
 import { Button } from '@/components/ui/button';
 import type { CreateEndpointDto, HttpMethod, MockEndpoint } from '@/types';
 import { FakerTemplates } from './FakerTemplates';
+import { SchemaSelector } from './SchemaSelector';
+import { schemasApi } from '@/services/api';
 
 interface EndpointFormProps {
   onSubmit: (dto: CreateEndpointDto) => void;
@@ -28,6 +30,8 @@ export function EndpointForm({ onSubmit, endpoint, trigger }: EndpointFormProps)
   const [response, setResponse] = useState(endpoint ? JSON.stringify(endpoint.response, null, 2) : defaultJson);
   const [delay, setDelay] = useState(endpoint?.delay?.toString() || '');
   const [error, setError] = useState('');
+  const [schemaId, setSchemaId] = useState(endpoint?.schemaRef?.schemaId || '');
+  const [tableId, setTableId] = useState(endpoint?.schemaRef?.tableId || '');
 
   const isEditing = !!endpoint;
 
@@ -57,6 +61,7 @@ export function EndpointForm({ onSubmit, endpoint, trigger }: EndpointFormProps)
       method,
       response: parsedResponse,
       delay: delay ? parseInt(delay) : undefined,
+      ...(schemaId && tableId ? { schemaRef: { schemaId, tableId } } : {}),
     };
 
     onSubmit(dto);
@@ -71,6 +76,8 @@ export function EndpointForm({ onSubmit, endpoint, trigger }: EndpointFormProps)
     setResponse(defaultJson);
     setDelay('');
     setError('');
+    setSchemaId('');
+    setTableId('');
     setOpen(false);
   };
 
@@ -85,6 +92,20 @@ export function EndpointForm({ onSubmit, endpoint, trigger }: EndpointFormProps)
         return prev;
       }
     });
+  };
+
+  const handleSchemaSelect = async (newSchemaId: string, newTableId: string) => {
+    setSchemaId(newSchemaId);
+    setTableId(newTableId);
+
+    if (newSchemaId && newTableId) {
+      try {
+        const data = await schemasApi.generateFromTable(newSchemaId, newTableId, 1);
+        setResponse(JSON.stringify(data[0], null, 2));
+      } catch (err) {
+        console.error('Failed to generate from schema:', err);
+      }
+    }
   };
 
   const dialogContent = (
@@ -116,7 +137,14 @@ export function EndpointForm({ onSubmit, endpoint, trigger }: EndpointFormProps)
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <label className="text-xs text-neutral-400">Response (JSON)</label>
-            <FakerTemplates onInsert={handleInsertTemplate} />
+            <div className="flex items-center gap-2">
+              <SchemaSelector
+                onSelect={handleSchemaSelect}
+                selectedSchemaId={schemaId}
+                selectedTableId={tableId}
+              />
+              <FakerTemplates onInsert={handleInsertTemplate} />
+            </div>
           </div>
           <textarea
             value={response}

@@ -1,11 +1,60 @@
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
+export type FieldType = 'string' | 'number' | 'boolean' | 'date' | 'email' | 'uuid' | 'phone' | 'address' | 'url' | 'custom';
+
+export interface SchemaField {
+  id: string;
+  name: string;
+  type: FieldType;
+  required: boolean;
+  fakerTemplate?: string;
+  options?: string[];
+}
+
+export type RelationType = 'one-to-one' | 'one-to-many' | 'many-to-many';
+
+export interface SchemaRelation {
+  id: string;
+  fromTable: string;
+  toTable: string;
+  type: RelationType;
+  fromField?: string;
+  toField?: string;
+}
+
+export interface TablePosition {
+  x: number;
+  y: number;
+}
+
+export interface SchemaTable {
+  id: string;
+  name: string;
+  fields: SchemaField[];
+  position: TablePosition;
+}
+
+export interface Schema {
+  id: string;
+  name: string;
+  tables: SchemaTable[];
+  relations: SchemaRelation[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SchemaRef {
+  schemaId: string;
+  tableId: string;
+}
+
 export interface MockEndpoint {
   id: string;
   path: string;
   method: HttpMethod;
   response: object;
   delay?: number;
+  schemaRef?: SchemaRef;
   createdAt: string;
 }
 
@@ -14,6 +63,7 @@ export interface CreateEndpointDto {
   method: HttpMethod;
   response: object;
   delay?: number;
+  schemaRef?: SchemaRef;
 }
 
 export interface RequestLog {

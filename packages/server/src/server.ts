@@ -1,5 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import path from 'path';
 import { endpointModel } from './models/Endpoint';
 import { processObject } from './utils/faker';
 import { logger } from './utils/logger';
@@ -20,7 +21,16 @@ export class MockServer {
 
     this.setupLogging();
     this.setupMockRoutes();
+    this.setupStaticFiles();
     this.setupMockHandler();
+  }
+
+  private setupStaticFiles(): void {
+    const webDistPath = path.join(__dirname, '../../web/dist');
+    this.app.use(express.static(webDistPath));
+    this.app.get('/', (_req, res) => {
+      res.sendFile(path.join(webDistPath, 'index.html'));
+    });
   }
 
   private setupLogging(): void {

@@ -10,4 +10,4 @@ coverage/
 .idea/
 context.md
 INTRODUCTION.md
-packages/web/storybook-static/
+packages/web/storybook-static/.npmrc

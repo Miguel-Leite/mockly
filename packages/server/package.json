@@ -1,11 +1,11 @@
 {
   "name": "mockly",
-  "version": "1.0.0",
-  "description": "Mock APIs rapidinho, desenvolva sem esperar o backend",
+  "version": "1.1.0",
+  "description": "Mock APIs rapidinho - Server + UI for creating mock endpoints",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "mockly-server": "./dist/index.js"
+    "mockly": "./dist/index.js"
   },
   "exports": {
     ".": {
@@ -15,15 +15,17 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "web/dist"
   ],
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc",
+    "build:web": "cd ../web && npm run build",
     "start": "node dist/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build && npm run build:web"
   },
   "keywords": [
     "mock",

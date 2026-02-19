@@ -1,4 +1,4 @@
-import { MockEndpoint, CreateEndpointDto, UpdateEndpointDto } from '../types';
+import { MockEndpoint, CreateEndpointDto, UpdateEndpointDto, SchemaRef } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 import { storage } from '../utils/storage';
 
@@ -73,6 +73,7 @@ export class EndpointModel {
       method: dto.method,
       response: dto.response,
       delay: dto.delay || 0,
+      schemaRef: dto.schemaRef,
       createdAt: new Date().toISOString(),
     };
     this.endpoints.set(id, endpoint);
@@ -104,6 +105,7 @@ export class EndpointModel {
       method: dto.method || endpoint.method,
       response: dto.response || endpoint.response,
       delay: dto.delay !== undefined ? dto.delay : endpoint.delay,
+      schemaRef: dto.schemaRef !== undefined ? dto.schemaRef : endpoint.schemaRef,
     };
     this.endpoints.set(id, updated);
     storage.updateEndpoint(id, updated);
