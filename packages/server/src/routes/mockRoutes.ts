@@ -92,6 +92,12 @@ router.delete('/logs', (_req: Request, res: Response) => {
   res.status(204).send();
 });
 
+router.post('/reset', (_req: Request, res: Response) => {
+  endpointModel.clear();
+  logger.clear();
+  res.json({ message: 'All data has been reset' });
+});
+
 // Schema routes
 router.get('/schemas', (_req: Request, res: Response) => {
   const schemas = schemaModel.findAll();

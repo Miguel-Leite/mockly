@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Settings as SettingsIcon, Plus, Trash2, Copy, RefreshCw, Key, Shield, Clock, Users } from 'lucide-react';
+import { Settings as SettingsIcon, Plus, Trash2, Copy, RefreshCw, Key, Shield, Clock, Users, RotateCcw } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { toastError, toastSuccess } from '@/lib/toast';
-import { authApi } from '@/services/api';
+import { authApi, api } from '@/services/api';
 import type { AuthSettings, AuthType, User } from '@/types';
 import { Toaster } from '@/components/ui/toaster';
 
@@ -53,6 +53,19 @@ export function Settings() {
       toastError('Failed to save', 'Please try again');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleReset = async () => {
+    if (!confirm('Are you sure you want to reset all data? This will delete all endpoints, schemas, and authentication settings.')) {
+      return;
+    }
+    try {
+      await api.post('/reset');
+      toastSuccess('Reset complete', 'All data has been cleared');
+      fetchSettings();
+    } catch (err) {
+      toastError('Failed to reset', 'Please try again');
     }
   };
 
@@ -278,7 +291,15 @@ export function Settings() {
             </>
           )}
 
-          <div className="flex justify-end">
+          <div className="flex justify-between">
+            <Button
+              variant="outline"
+              onClick={handleReset}
+              className="text-red-400 border-red-900 hover:bg-red-900/20"
+            >
+              <RotateCcw className="h-4 w-4 mr-2" />
+              Reset All
+            </Button>
             <Button onClick={handleSave} disabled={saving}>
               {saving ? 'Saving...' : 'Save Settings'}
             </Button>

@@ -309,6 +309,12 @@ Mockly (Monorepo)
 - [x] Token Expiry como select (1h, 6h, 12h, 24h, 7d, 30d)
 - [x] Botão Generate para API Key
 
+#### Fase 6: Correções e Melhorias
+- [x] Corrigir EndpointForm - preencher schema/table ao editar
+- [x] Corrigir validação no submit para permitir edição sem schema
+- [x] Adicionar botão Reset All em Settings
+- [x] Limpar auth endpoints e usuários ao desabilitar autenticação
+
 ### Items Concluídos
 - [x] Schema Editor - Criar/editar schemas com campos
 - [x] Schema Canvas - Drag-and-drop de tabelas

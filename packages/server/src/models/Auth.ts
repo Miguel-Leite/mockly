@@ -55,11 +55,16 @@ export class AuthModel {
 
   updateSettings(settings: Partial<AuthSettings>): AuthSettings {
     const wasEnabled = this.settings.enabled;
+    const newEnabled = settings.enabled !== undefined ? settings.enabled : this.settings.enabled;
+    
     this.settings = { ...this.settings, ...settings };
     storage.setAuthSettings(this.settings);
     
-    if (!wasEnabled && this.settings.enabled) {
+    if (!wasEnabled && newEnabled) {
       this.ensureAuthEndpoints();
+    } else if (wasEnabled && !newEnabled) {
+      this.removeAuthEndpoints();
+      this.clearUsers();
     }
     
     return this.settings;
@@ -80,6 +85,25 @@ export class AuthModel {
         storage.addEndpoint(newEndpoint);
       }
     }
+  }
+
+  private removeAuthEndpoints(): void {
+    const endpoints = storage.getEndpoints();
+    const authEndpointIds = endpoints
+      .filter(e => e.path.startsWith('/auth/') && ['login', 'register', 'me'].some(p => e.path.endsWith(p)))
+      .map(e => e.id);
+    
+    for (const id of authEndpointIds) {
+      storage.deleteEndpoint(id);
+    }
+  }
+
+  private clearUsers(): void {
+    const users = storage.getUsers();
+    for (const user of users) {
+      storage.deleteUser(user.id);
+    }
+    this.users.clear();
   }
 
   getAuthEndpoints(): MockEndpoint[] {

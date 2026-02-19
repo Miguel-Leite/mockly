@@ -36,18 +36,18 @@ export function EndpointForm({ onSubmit, endpoint, trigger }: EndpointFormProps)
   const [open, setOpen] = useState(false);
   const [schemas, setSchemas] = useState<Schema[]>([]);
   
-  const [path, setPath] = useState(endpoint?.path || '');
-  const [method, setMethod] = useState<HttpMethod>(endpoint?.method || 'GET');
-  const [delay, setDelay] = useState(endpoint?.delay?.toString() || '');
-  const [count, setCount] = useState(endpoint?.storedData ? String(endpoint.storedData.length) : '1');
-  const [schemaId, setSchemaId] = useState(endpoint?.schemaRef?.schemaId || '');
-  const [tableId, setTableId] = useState(endpoint?.schemaRef?.tableId || '');
-  const [responseKeys, setResponseKeys] = useState<string[]>(endpoint?.responseKeys || []);
+  const [path, setPath] = useState('');
+  const [method, setMethod] = useState<HttpMethod>('GET');
+  const [delay, setDelay] = useState('');
+  const [count, setCount] = useState('1');
+  const [schemaId, setSchemaId] = useState('');
+  const [tableId, setTableId] = useState('');
+  const [responseKeys, setResponseKeys] = useState<string[]>([]);
   const [responseKeysInput, setResponseKeysInput] = useState('');
-  const [isArray, setIsArray] = useState(endpoint?.storedData ? Array.isArray(endpoint.storedData) : false);
+  const [isArray, setIsArray] = useState(false);
   const [error, setError] = useState('');
-  const [authRequired, setAuthRequired] = useState(endpoint?.authRequired || false);
-  const [useCustomKeys, setUseCustomKeys] = useState(!endpoint?.schemaRef && !!endpoint?.responseKeys);
+  const [authRequired, setAuthRequired] = useState(false);
+  const [useCustomKeys, setUseCustomKeys] = useState(false);
 
   const isEditing = !!endpoint;
 
@@ -56,6 +56,34 @@ export function EndpointForm({ onSubmit, endpoint, trigger }: EndpointFormProps)
       .then(setSchemas)
       .catch(console.error);
   }, []);
+
+  useEffect(() => {
+    if (open && endpoint) {
+      setPath(endpoint.path || '');
+      setMethod(endpoint.method || 'GET');
+      setDelay(endpoint.delay?.toString() || '');
+      setCount(endpoint.storedData ? String(endpoint.storedData.length) : '1');
+      setSchemaId(endpoint.schemaRef?.schemaId || '');
+      setTableId(endpoint.schemaRef?.tableId || '');
+      setResponseKeys(endpoint.responseKeys || []);
+      setResponseKeysInput(endpoint.responseKeys ? endpoint.responseKeys.join(', ') : '');
+      setIsArray(endpoint.storedData ? Array.isArray(endpoint.storedData) : false);
+      setAuthRequired(endpoint.authRequired || false);
+      setUseCustomKeys(!endpoint.schemaRef && !!endpoint.responseKeys);
+    } else if (open) {
+      setPath('');
+      setMethod('GET');
+      setDelay('');
+      setCount('1');
+      setSchemaId('');
+      setTableId('');
+      setResponseKeys([]);
+      setResponseKeysInput('');
+      setIsArray(false);
+      setAuthRequired(false);
+      setUseCustomKeys(false);
+    }
+  }, [open, endpoint]);
 
   const hasSchemas = schemas.length > 0;
 
@@ -84,7 +112,8 @@ export function EndpointForm({ onSubmit, endpoint, trigger }: EndpointFormProps)
       return;
     }
 
-    if (!schemaId && responseKeys.length === 0 && !useCustomKeys) {
+    const hasDataSource = schemaId && tableId || responseKeys.length > 0 || useCustomKeys;
+    if (!isEditing && !hasDataSource) {
       setError('Please select a schema and table, or enter custom response keys');
       return;
     }
@@ -107,6 +136,10 @@ export function EndpointForm({ onSubmit, endpoint, trigger }: EndpointFormProps)
         setError('Failed to generate response from schema');
         return;
       }
+    } else if (isEditing && endpoint) {
+      response = endpoint.response;
+      finalSchemaRef = endpoint.schemaRef;
+      finalResponseKeys = endpoint.responseKeys;
     } else {
       response = {};
     }
