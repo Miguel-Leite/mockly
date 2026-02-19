@@ -20,6 +20,20 @@ import {
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { TableNode } from '@/components/TableNode';
 import { FieldEditor } from '@/components/FieldEditor';
 import { RelationshipEditor } from '@/components/RelationshipEditor';
@@ -42,6 +56,9 @@ export function SchemaEditor() {
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+  const [showAddTableDialog, setShowAddTableDialog] = useState(false);
+  const [newTableName, setNewTableName] = useState('');
+  const [tableToDelete, setTableToDelete] = useState<{ id: string; name: string } | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -108,45 +125,48 @@ export function SchemaEditor() {
   };
 
   const handleAddTable = async () => {
-    if (!schema) return;
-    const name = prompt('Enter table name:');
-    if (!name?.trim()) return;
+    if (!schema || !newTableName.trim()) return;
 
     try {
       const position = {
         x: 100 + Math.random() * 200,
         y: 100 + Math.random() * 200,
       };
-      const table = await schemasApi.addTable(schema.id, name.trim(), position);
+      const table = await schemasApi.addTable(schema.id, newTableName.trim(), position);
       setSchema(prev => prev ? { ...prev, tables: [...prev.tables, table] } : prev);
-      toastSuccess('Table added', `Created "${name}" table`);
+      toastSuccess('Table added', `Created "${newTableName}" table`);
+      setNewTableName('');
+      setShowAddTableDialog(false);
     } catch (err) {
       console.error('Failed to add table:', err);
       toastError('Failed to add table', 'Please try again');
     }
   };
 
-  const handleDeleteTable = async (tableId: string) => {
-    if (!schema) return;
-    const table = schema.tables.find(t => t.id === tableId);
-    if (!confirm(`Delete table "${table?.name}"?`)) return;
+  const handleDeleteTable = async () => {
+    if (!schema || !tableToDelete) return;
 
     try {
-      await schemasApi.deleteTable(schema.id, tableId);
+      await schemasApi.deleteTable(schema.id, tableToDelete.id);
       setSchema(prev => prev ? {
         ...prev,
-        tables: prev.tables.filter(t => t.id !== tableId),
-        relations: prev.relations.filter(r => r.fromTable !== tableId && r.toTable !== tableId),
+        tables: prev.tables.filter(t => t.id !== tableToDelete.id),
+        relations: prev.relations.filter(r => r.fromTable !== tableToDelete.id && r.toTable !== tableToDelete.id),
       } : prev);
-      if (selectedTable?.id === tableId) {
+      if (selectedTable?.id === tableToDelete.id) {
         setSelectedTable(null);
         setShowFieldEditor(false);
       }
       toastSuccess('Table deleted', 'Table removed successfully');
+      setTableToDelete(null);
     } catch (err) {
       console.error('Failed to delete table:', err);
       toastError('Failed to delete table', 'Please try again');
     }
+  };
+
+  const openDeleteTableDialog = (tableId: string, tableName: string) => {
+    setTableToDelete({ id: tableId, name: tableName });
   };
 
   const handleAddField = async (field: Omit<SchemaField, 'id'>) => {
@@ -299,7 +319,7 @@ export function SchemaEditor() {
             <LinkIcon className="h-4 w-4 mr-2" />
             Relations
           </Button>
-          <Button variant="outline" size="sm" onClick={handleAddTable}>
+          <Button variant="outline" size="sm" onClick={() => setShowAddTableDialog(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Add Table
           </Button>
@@ -355,7 +375,7 @@ export function SchemaEditor() {
                   setSelectedTable(table);
                   setShowFieldEditor(true);
                 }}
-                onDelete={() => handleDeleteTable(table.id)}
+                onDelete={() => openDeleteTableDialog(table.id, table.name)}
               />
             ))}
           </div>
@@ -396,6 +416,48 @@ export function SchemaEditor() {
           onDeleteRelation={handleDeleteRelation}
         />
       )}
+
+      <Dialog open={showAddTableDialog} onOpenChange={setShowAddTableDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Table</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <input
+              type="text"
+              value={newTableName}
+              onChange={(e) => setNewTableName(e.target.value)}
+              placeholder="Table name (e.g., users, products)"
+              className="w-full h-10 px-3 bg-neutral-950 border border-neutral-800 rounded-lg text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-600"
+              autoFocus
+              onKeyDown={(e) => e.key === 'Enter' && handleAddTable()}
+            />
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => { setShowAddTableDialog(false); setNewTableName(''); }}>
+              Cancel
+            </Button>
+            <Button onClick={handleAddTable} disabled={!newTableName.trim()}>
+              Add Table
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <AlertDialog open={!!tableToDelete} onOpenChange={(open) => !open && setTableToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogTitle className="text-lg font-semibold">Delete Table</AlertDialogTitle>
+          <AlertDialogDescription className="text-sm text-neutral-400">
+            Are you sure you want to delete "{tableToDelete?.name}"? This action cannot be undone.
+          </AlertDialogDescription>
+          <div className="flex justify-end gap-2 mt-4">
+            <AlertDialogCancel onClick={() => setTableToDelete(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteTable} className="bg-red-600 hover:bg-red-700">
+              Delete
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Toaster />
     </div>

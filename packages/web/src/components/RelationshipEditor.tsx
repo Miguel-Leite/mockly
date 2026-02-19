@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { X, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { toastError } from '@/lib/toast';
 import type { Schema, SchemaRelation, RelationType } from '@/types';
 
 interface RelationshipEditorProps {
@@ -26,7 +27,7 @@ export function RelationshipEditor({ schema, onClose, onAddRelation, onDeleteRel
   const handleAdd = () => {
     if (!newRelation.fromTable || !newRelation.toTable) return;
     if (newRelation.fromTable === newRelation.toTable) {
-      alert('Cannot create relation to the same table');
+      toastError('Invalid relation', 'Cannot create relation to the same table');
       return;
     }
     onAddRelation(newRelation);

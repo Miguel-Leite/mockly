@@ -3,6 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Database, Plus, Trash2, Table2, ArrowRight } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { schemasApi } from '@/services/api';
 import { toastError, toastSuccess } from '@/lib/toast';
 import type { Schema } from '@/types';
@@ -14,6 +22,7 @@ export function Schemas() {
   const [serverConnected, setServerConnected] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newSchemaName, setNewSchemaName] = useState('');
+  const [schemaToDelete, setSchemaToDelete] = useState<{ id: string; name: string } | null>(null);
   const navigate = useNavigate();
 
   const fetchSchemas = useCallback(async () => {
@@ -54,17 +63,22 @@ export function Schemas() {
     }
   };
 
-  const handleDelete = async (id: string, name: string) => {
-    if (!confirm(`Delete schema "${name}"? This action cannot be undone.`)) return;
+  const handleDelete = async () => {
+    if (!schemaToDelete) return;
 
     try {
-      await schemasApi.delete(id);
-      setSchemas(prev => prev.filter(s => s.id !== id));
+      await schemasApi.delete(schemaToDelete.id);
+      setSchemas(prev => prev.filter(s => s.id !== schemaToDelete.id));
       toastSuccess('Schema deleted', 'Schema removed successfully');
+      setSchemaToDelete(null);
     } catch (err) {
       console.error('Failed to delete schema:', err);
       toastError('Failed to delete schema', 'Please try again');
     }
+  };
+
+  const openDeleteDialog = (id: string, name: string) => {
+    setSchemaToDelete({ id, name });
   };
 
   return (
@@ -126,7 +140,7 @@ export function Schemas() {
                     variant="ghost"
                     size="icon"
                     className="opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={() => handleDelete(schema.id, schema.name)}
+                    onClick={() => openDeleteDialog(schema.id, schema.name)}
                   >
                     <Trash2 className="h-4 w-4 text-neutral-500 hover:text-red-400" />
                   </Button>
@@ -202,6 +216,22 @@ export function Schemas() {
           </div>
         )}
       </main>
+
+      <AlertDialog open={!!schemaToDelete} onOpenChange={(open) => !open && setSchemaToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogTitle className="text-lg font-semibold">Delete Schema</AlertDialogTitle>
+          <AlertDialogDescription className="text-sm text-neutral-400">
+            Are you sure you want to delete "{schemaToDelete?.name}"? This action cannot be undone.
+          </AlertDialogDescription>
+          <div className="flex justify-end gap-2 mt-4">
+            <AlertDialogCancel onClick={() => setSchemaToDelete(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
+              Delete
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <Toaster />
     </div>
   );

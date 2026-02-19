@@ -134,12 +134,13 @@ export function SchemaSelector({ onSelect, selectedSchemaId, selectedTableId }: 
       {selectedSchemaId && selectedTableId && (
         <Button
           variant="ghost"
-          size="icon"
-          className="h-7 w-7"
+          size="sm"
+          className="h-7 gap-1 text-primary-400"
           onClick={handleGenerate}
-          title="Generate from schema"
+          title="Generate JSON from schema"
         >
           <RefreshCw className="h-3 w-3" />
+          Generate
         </Button>
       )}
     </div>
