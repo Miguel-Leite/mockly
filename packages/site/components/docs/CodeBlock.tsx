@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Check, Copy, ChevronDown } from "lucide-react";
+import { useTheme } from "next-themes";
 
 interface CodeBlockProps {
   code: string;
@@ -12,6 +13,8 @@ interface CodeBlockProps {
 export function CodeBlock({ code, language = "bash", filename }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
   const codeRef = useRef<HTMLElement>(null);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const copyCode = async () => {
     await navigator.clipboard.writeText(code);
@@ -33,7 +36,7 @@ export function CodeBlock({ code, language = "bash", filename }: CodeBlockProps)
 
   return (
     <div className="rounded-lg border border-border overflow-hidden my-4">
-      <div className="flex items-center justify-between dark:bg-neutral-900 bg-neutral-100 px-4 py-2 border-b border-border">
+      <div className={`flex items-center justify-between px-4 py-2 border-b border-border ${isDark ? "bg-neutral-900" : "bg-neutral-100"}`}>
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
             <div className="h-3 w-3 rounded-full bg-red-500/80" />
@@ -41,29 +44,29 @@ export function CodeBlock({ code, language = "bash", filename }: CodeBlockProps)
             <div className="h-3 w-3 rounded-full bg-green-500/80" />
           </div>
           {filename && (
-            <span className="ml-2 text-xs dark:text-neutral-400 text-neutral-600">{filename}</span>
+            <span className={`ml-2 text-xs ${isDark ? "text-neutral-400" : "text-neutral-600"}`}>{filename}</span>
           )}
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs dark:text-neutral-500 text-neutral-500">
+          <span className={`text-xs ${isDark ? "text-neutral-500" : "text-neutral-500"}`}>
             {languageLabels[language] || language}
           </span>
           <button
             onClick={copyCode}
-            className="p-1 hover:bg-neutral-800/50 dark:hover:bg-neutral-800 rounded transition-colors"
+            className={`p-1 rounded transition-colors ${isDark ? "hover:bg-neutral-800" : "hover:bg-neutral-200"}`}
             title="Copy code"
           >
             {copied ? (
               <Check className="h-4 w-4 text-green-500" />
             ) : (
-              <Copy className="h-4 w-4 dark:text-neutral-400 text-neutral-600" />
+              <Copy className={`h-4 w-4 ${isDark ? "text-neutral-400" : "text-neutral-600"}`} />
             )}
           </button>
         </div>
       </div>
-      <div className="overflow-x-auto dark:bg-neutral-950 bg-neutral-50 p-4">
+      <div className={`overflow-x-auto p-4 ${isDark ? "bg-neutral-950" : "bg-neutral-900"}`}>
         <pre className="font-mono text-sm leading-relaxed">
-          <code className="dark:text-neutral-100 text-neutral-900">{code}</code>
+          <code className={`${isDark ? "text-neutral-100" : "text-neutral-100"}`}>{code}</code>
         </pre>
       </div>
     </div>
