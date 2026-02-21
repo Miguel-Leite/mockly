@@ -33,7 +33,7 @@ export function CodeBlock({ code, language = "bash", filename }: CodeBlockProps)
 
   return (
     <div className="rounded-lg border border-border overflow-hidden my-4">
-      <div className="flex items-center justify-between bg-neutral-900 px-4 py-2 border-b border-border">
+      <div className="flex items-center justify-between dark:bg-neutral-900 bg-neutral-100 px-4 py-2 border-b border-border">
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
             <div className="h-3 w-3 rounded-full bg-red-500/80" />
@@ -41,29 +41,29 @@ export function CodeBlock({ code, language = "bash", filename }: CodeBlockProps)
             <div className="h-3 w-3 rounded-full bg-green-500/80" />
           </div>
           {filename && (
-            <span className="ml-2 text-xs text-neutral-400">{filename}</span>
+            <span className="ml-2 text-xs dark:text-neutral-400 text-neutral-600">{filename}</span>
           )}
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-neutral-500">
+          <span className="text-xs dark:text-neutral-500 text-neutral-500">
             {languageLabels[language] || language}
           </span>
           <button
             onClick={copyCode}
-            className="p-1 hover:bg-neutral-800 rounded transition-colors"
+            className="p-1 hover:bg-neutral-800/50 dark:hover:bg-neutral-800 rounded transition-colors"
             title="Copy code"
           >
             {copied ? (
               <Check className="h-4 w-4 text-green-500" />
             ) : (
-              <Copy className="h-4 w-4 text-neutral-400" />
+              <Copy className="h-4 w-4 dark:text-neutral-400 text-neutral-600" />
             )}
           </button>
         </div>
       </div>
-      <div className="overflow-x-auto bg-neutral-950 p-4">
+      <div className="overflow-x-auto dark:bg-neutral-950 bg-neutral-50 p-4">
         <pre className="font-mono text-sm leading-relaxed">
-          <code className="text-neutral-100">{code}</code>
+          <code className="dark:text-neutral-100 text-neutral-900">{code}</code>
         </pre>
       </div>
     </div>
