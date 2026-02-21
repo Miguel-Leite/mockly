@@ -178,7 +178,7 @@ const steps = [
     code: "npx mockario start",
     component: (
       <>
-        <AnimatedTerminal className="w-full h-72">
+        <AnimatedTerminal className="w-full h-48 md:h-56 lg:h-72 -mx-2 md:mx-0">
           <TypingAnimation>npx mockario start</TypingAnimation>
           <AnimatedSpan>🚀 Starting Mockario...</AnimatedSpan>
           <AnimatedSpan>📦 Starting mock server on port 3001...</AnimatedSpan>
@@ -229,7 +229,7 @@ const item = {
 
 export function HowItWorks() {
   return (
-    <section className="relative overflow-hidden dark:bg-neutral-950 bg-neutral-100 py-20">
+    <section className="relative overflow-hidden dark:bg-neutral-950 bg-neutral-100 py-12 md:py-20">
       <div className="absolute inset-0 bg-grid-dots opacity-30" />
 
       <div className="container relative mx-auto px-4">
@@ -238,12 +238,12 @@ export function HowItWorks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mx-auto max-w-2xl text-center mb-12"
+          className="mx-auto max-w-2xl text-center mb-8 md:mb-12"
         >
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl dark:text-white text-neutral-900">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight dark:text-white text-neutral-900">
             Como funciona
           </h2>
-          <p className="mt-4 dark:text-neutral-400 text-neutral-600">
+          <p className="mt-3 md:mt-4 dark:text-neutral-400 text-neutral-600 text-sm md:text-base">
             Em três passos você está pronto para desenvolver
           </p>
         </motion.div>
@@ -253,24 +253,24 @@ export function HowItWorks() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="grid gap-6 md:grid-cols-3"
+          className="grid gap-4 md:grid-cols-3"
         >
           {steps.map((step, index) => (
             <motion.div
               key={index}
               variants={item}
-              className="rounded-lg border dark:border-neutral-800 border-neutral-200 dark:bg-neutral-900 bg-white p-6 pb-1 overflow-hidden"
+              className="rounded-lg border dark:border-neutral-800 border-neutral-200 dark:bg-neutral-900 bg-white p-4 md:p-6 overflow-hidden"
             >
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-600/10">
-                  <step.icon className="h-5 w-5 text-green-600" />
+              <div className="mb-3 md:mb-4 flex items-center justify-between">
+                <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg bg-green-600/10">
+                  <step.icon className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
                 </div>
-                <span className="text-2xl font-bold dark:text-neutral-700 text-neutral-400">
+                <span className="text-xl md:text-2xl font-bold dark:text-neutral-700 text-neutral-400">
                   {index + 1}
                 </span>
               </div>
-              <h3 className="mb-2 text-lg font-semibold dark:text-white text-neutral-900">{step.title}</h3>
-              <p className="mb-4 text-sm dark:text-neutral-400 text-neutral-600">{step.description}</p>
+              <h3 className="mb-2 text-base md:text-lg font-semibold dark:text-white text-neutral-900">{step.title}</h3>
+              <p className="mb-3 md:mb-4 text-sm dark:text-neutral-400 text-neutral-600">{step.description}</p>
               {step.component}
             </motion.div>
           ))}

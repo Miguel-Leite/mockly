@@ -55,15 +55,15 @@ export default function Home() {
 
         {/* <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-green-500/10 rounded-full blur-[120px]" /> */}
         <div className="relative w-full z-10">
-          <div className="max-w-3xl w-full mx-auto mt-56">
-            <div className="flex flex-col items-center justify-center text-center gap-10">
-              <div className="text-center space-y-5">
-                <h1 className="text-5xl font-bold dark:text-white text-neutral-900 mb-4">
+          <div className="max-w-3xl w-full mx-auto mt-20 md:mt-32 lg:mt-40 px-4">
+            <div className="flex flex-col items-center justify-center text-center gap-6 md:gap-8">
+              <div className="space-y-4">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold dark:text-white text-neutral-900">
                   Mock APIs{" "}
                   <span className="text-green-600">rapidinho </span>
                   desenvolva sem esperar o backend
                 </h1>
-                <p className="text-lg dark:text-white text-neutral-700">
+                <p className="text-base md:text-lg dark:text-white text-neutral-700 px-2 md:px-0">
                   Crie APIs simuladas localmente e acelere seu desenvolvimento front-end.
                 </p>
               </div>
@@ -100,7 +100,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((feature, index) => (
               <MagicCard key={index} className="p-5 rounded-lg border dark:border-neutral-800 border-neutral-200 dark:bg-neutral-900 bg-white" gradientFrom={theme === "dark" ? colors.neutral[900] : colors.neutral[100]} gradientTo={theme === "dark" ? colors.green[900] : colors.green[100]}>
                 <div className="flex flex-row items-start gap-2">
