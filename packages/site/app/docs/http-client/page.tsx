@@ -1,6 +1,6 @@
 "use client";
 
-import { Callout } from "@/components/docs";
+import { Callout, Safari } from "@/components/docs";
 import { useTranslation } from "@/lib/i18n";
 
 export default function HttpClientPage() {
@@ -28,6 +28,10 @@ export default function HttpClientPage() {
         <li>{t.docs.httpClient.clickSend}</li>
         <li>{t.docs.httpClient.viewResponse}</li>
       </ol>
+
+      <div className="my-8">
+        <Safari imageSrc="/http-client.png" url="mockario.com" />
+      </div>
 
       <h2>{t.docs.httpClient.selectEndpoint}</h2>
       <p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { CodeBlock, Callout } from "@/components/docs";
+import { CodeBlock, Callout, Safari } from "@/components/docs";
 import { useTranslation } from "@/lib/i18n";
 
 export default function QuickStartPage() {
@@ -39,6 +39,10 @@ export default function QuickStartPage() {
         </ul>
         <li>{t.docs.quickStart.clickSave}</li>
       </ol>
+
+      <div className="my-8">
+        <Safari imageSrc="/list-endpoints.png" url="localhost:3001" />
+      </div>
 
       <h2>{t.docs.quickStart.testEndpoint}</h2>
       <p>{t.docs.quickStart.nowYouCanTest}</p>

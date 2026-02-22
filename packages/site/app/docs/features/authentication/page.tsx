@@ -1,6 +1,6 @@
 "use client";
 
-import { CodeBlock, Callout } from "@/components/docs";
+import { CodeBlock, Callout, Safari } from "@/components/docs";
 import { useTranslation } from "@/lib/i18n";
 
 export default function AuthenticationPage() {
@@ -74,6 +74,10 @@ export default function AuthenticationPage() {
       <p>
         {t.docs.authentication.manageUsersDesc}
       </p>
+
+      <div className="my-8">
+        <Safari imageSrc="/config-auth-enabled.png" url="mockario.com" />
+      </div>
 
       <Callout type="warning" title={t.docs.authentication.securityWarning}>
         {t.docs.authentication.securityNote}

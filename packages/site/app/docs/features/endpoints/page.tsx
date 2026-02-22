@@ -1,6 +1,6 @@
 "use client";
 
-import { CodeBlock, Callout } from "@/components/docs";
+import { CodeBlock, Callout, Safari } from "@/components/docs";
 import { useTranslation } from "@/lib/i18n";
 
 export default function EndpointsPage() {
@@ -25,6 +25,10 @@ export default function EndpointsPage() {
         <li>{t.docs.endpoints.defineFields}</li>
         <li>{t.docs.endpoints.saveEndpoint}</li>
       </ol>
+
+      <div className="my-8">
+        <Safari imageSrc="/create-endpoint.png" url="mockario.com" />
+      </div>
 
       <h3>{t.docs.endpoints.viaApi}</h3>
       <CodeBlock code={`POST /api/mock/endpoints

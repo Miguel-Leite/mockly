@@ -1,6 +1,6 @@
 "use client";
 
-import { CodeBlock, Callout } from "@/components/docs";
+import { CodeBlock, Callout, Safari } from "@/components/docs";
 import { useTranslation } from "@/lib/i18n";
 
 export default function SchemasPage() {
@@ -25,6 +25,10 @@ export default function SchemasPage() {
         <li>{t.docs.schemas.defineFields}</li>
         <li>{t.docs.schemas.saveSchema}</li>
       </ol>
+
+      <div className="my-8">
+        <Safari imageSrc="/create-schema.png" url="mockario.com" />
+      </div>
 
       <h2>{t.docs.schemas.fakerFields}</h2>
       <p>

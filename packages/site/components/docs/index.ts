@@ -4,3 +4,4 @@ export { CodeBlock } from "./CodeBlock";
 export { Callout } from "./Callout";
 export { Breadcrumbs } from "./Breadcrumbs";
 export { TableOfContents } from "./TableOfContents";
+export { Safari } from "@/components/ui";
