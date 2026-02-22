@@ -16,7 +16,7 @@ export default function QuickStartPage() {
       <h2>{t.docs.quickStart.startServer}</h2>
       <p>{t.docs.quickStart.runCommand}</p>
 
-      <CodeBlock code="npx mockario start" language="bash" />
+      <CodeBlock code="npx @mockario/mockario start" language="bash" />
 
       <Callout type="info">
         {t.docs.quickStart.thisCommandWillStart}

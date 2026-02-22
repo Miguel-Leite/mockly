@@ -106,7 +106,7 @@ const colorMapHooks: Record<string, string> = {
   number: "text-blue-400",
 };
 
-const codeStringHooks = `import { MockarioProvider, useMockEndpoints } from 'mockario';
+const codeStringHooks = `import { MockarioProvider, useMockEndpoints } from '@mockario/mockario';
 
 function UsersList() {
   const { endpoints, isLoading } = useMockEndpoints('http://localhost:3001');
@@ -195,11 +195,11 @@ export function HowItWorks() {
       icon: Terminal,
       title: t.home.steps.startServer,
       description: t.home.steps.startServerDesc,
-      code: "npx mockario start",
+      code: "npx @mockario/mockario start",
       component: (
         <>
           <AnimatedTerminal className="w-full h-48 md:h-56 lg:h-72 -mx-2 md:mx-0">
-            <TypingAnimation>npx mockario start</TypingAnimation>
+            <TypingAnimation>npx @mockario/mockario start</TypingAnimation>
             <AnimatedSpan>🚀 Starting Mockario...</AnimatedSpan>
             <AnimatedSpan>📦 Starting mock server on port 3001...</AnimatedSpan>
             <AnimatedSpan>🌐 Starting Mockario Web Interface...</AnimatedSpan>

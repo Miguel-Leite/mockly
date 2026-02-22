@@ -24,11 +24,11 @@ export default function InstallationPage() {
         {t.docs.installation.installGlobal}
       </p>
 
-      <CodeBlock code="npm install -g mockario" language="bash" />
+      <CodeBlock code="npm install -g @mockario/mockario" language="bash" />
 
       <p>{t.docs.installation.orUseNpx}</p>
 
-      <CodeBlock code="npx mockario --version" language="bash" />
+      <CodeBlock code="npx @mockario/mockario --version" language="bash" />
 
       <Callout type="note">
         {t.docs.installation.recommendNpx}
@@ -37,7 +37,7 @@ export default function InstallationPage() {
       <h2>{t.docs.installation.verification}</h2>
       <p>{t.docs.installation.verifyInstall}</p>
 
-      <CodeBlock code="npx mockario --help" language="bash" />
+      <CodeBlock code="npx @mockario/mockario --help" language="bash" />
 
       <h2>{t.docs.installation.nextSteps}</h2>
       <p>

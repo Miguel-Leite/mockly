@@ -31,7 +31,7 @@ export function Footer() {
               {t.common.github}
             </a>
             <a
-              href="https://www.npmjs.com/package/mockario"
+              href="https://www.npmjs.com/package/@mockario/mockario"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm dark:text-muted-foreground text-neutral-600 hover:text-foreground transition-colors"

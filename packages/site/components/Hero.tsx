@@ -83,7 +83,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <div className="inline-block rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-3 font-mono text-sm">
-              <span className="text-green-600">$</span> npx mockario start
+              <span className="text-green-600">$</span> npx @mockario/mockario start
             </div>
           </motion.div>
         </div>

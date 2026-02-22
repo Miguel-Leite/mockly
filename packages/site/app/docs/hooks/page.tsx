@@ -23,7 +23,7 @@ export default function HooksPage() {
         {t.docs.hooks.providerDesc}
       </p>
 
-      <CodeBlock code={`import { MockarioProvider } from 'mockario';
+      <CodeBlock code={`import { MockarioProvider } from '@mockario/mockario';
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
         {t.docs.hooks.useMockEndpointsDesc}
       </p>
 
-      <CodeBlock code={`import { useMockEndpoints } from 'mockario';
+      <CodeBlock code={`import { useMockEndpoints } from '@mockario/mockario';
 
 function EndpointsList() {
   const { 
@@ -82,7 +82,7 @@ function EndpointsList() {
         {t.docs.hooks.useMockServerDesc}
       </p>
 
-      <CodeBlock code={`import { useMockServer } from 'mockario';
+      <CodeBlock code={`import { useMockServer } from '@mockario/mockario';
 
 function ServerStatus() {
   const { 
@@ -122,7 +122,7 @@ function ServerStatus() {
         {t.docs.hooks.useMockLogsDesc}
       </p>
 
-      <CodeBlock code={`import { useMockLogs } from 'mockario';
+      <CodeBlock code={`import { useMockLogs } from '@mockario/mockario';
 
 function RequestLogs() {
   const { logs, isLoading, clearLogs } = useMockLogs('http://localhost:3001');
@@ -146,7 +146,7 @@ function RequestLogs() {
         {t.docs.hooks.fullExampleDesc}
       </p>
 
-      <CodeBlock code={`import { MockarioProvider, useMockEndpoints, useMockServer } from 'mockario';
+      <CodeBlock code={`import { MockarioProvider, useMockEndpoints, useMockServer } from '@mockario/mockario';
 
 function Dashboard() {
   const { isConnected, serverUrl } = useMockServer('http://localhost:3001');

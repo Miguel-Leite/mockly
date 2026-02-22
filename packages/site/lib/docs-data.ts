@@ -24,8 +24,8 @@ export const docsPages: DocPage[] = [
     slug: "/docs/installation",
     sectionEn: "Getting Started",
     sectionPt: "Primeiros Passos",
-    contentEn: `Learn how to install and configure Mockario in your project. Requirements: Node.js 18 or higher, npm or yarn. Installation: Mockario can be installed globally via npm: npm install -g mockario. Or it can be used directly with npx: npx mockario --version. We recommend using npx to avoid global installations and always use the latest version. Verification: To verify the installation was successful: npx mockario --help.`,
-    contentPt: `Aprenda como instalar e configurar o Mockario no seu projeto. Requisitos: Node.js 18 ou superior, npm ou yarn. Instalação: O Mockario pode ser instalado globalmente via npm: npm install -g mockario. Ou pode ser usado diretamente com npx: npx mockario --version. Recomendamos usar npx para evitar instalações globais e sempre usar a versão mais recente. Verificação: Para verificar se a instalação foi bem sucedida: npx mockario --help.`,
+    contentEn: `Learn how to install and configure Mockario in your project. Requirements: Node.js 18 or higher, npm or yarn. Installation: Mockario can be installed globally via npm: npm install -g @mockario/mockario. Or it can be used directly with npx: npx @mockario/mockario --version. We recommend using npx to avoid global installations and always use the latest version. Verification: To verify the installation was successful: npx @mockario/mockario --help.`,
+    contentPt: `Aprenda como instalar e configurar o Mockario no seu projeto. Requisitos: Node.js 18 ou superior, npm ou yarn. Instalação: O Mockario pode ser instalado globalmente via npm: npm install -g @mockario/mockario. Ou pode ser usado diretamente com npx: npx @mockario/mockario --version. Recomendamos usar npx para evitar instalações globais e sempre usar a versão mais recente. Verificação: Para verificar se a instalação foi bem sucedida: npx @mockario/mockario --help.`,
   },
   {
     titleEn: "Quick Start",
@@ -33,8 +33,8 @@ export const docsPages: DocPage[] = [
     slug: "/docs/quick-start",
     sectionEn: "Getting Started",
     sectionPt: "Primeiros Passos",
-    contentEn: `Create your first mock endpoint in less than 5 minutes. Start the Server: Run the command below to start Mockario: npx mockario start. This command will start: Mock server on port 3001, Web interface on port 5173, Automatically open browser. Create your First Endpoint: Access the web interface at http://localhost:5173, Click the New Endpoint button, Fill in the fields: Path, Method, Response, Click Save. Test the Endpoint: Now you can test your endpoint: curl http://localhost:3001/api/users.`,
-    contentPt: `Crie seu primeiro endpoint mock em menos de 5 minutos. Iniciar o Servidor: Execute o comando abaixo para iniciar o Mockario: npx mockario start. Este comando ira iniciar: Servidor mock na porta 3001, Interface web na porta 5173, Abrir automaticamente o browser. Criar seu Primeiro Endpoint: Acesse a interface web em http://localhost:5173, Clique no botão New Endpoint, Preencha os campos: Path, Method, Response, Clique em Save. Testar o Endpoint: Agora você pode testar seu endpoint: curl http://localhost:3001/api/users.`,
+    contentEn: `Create your first mock endpoint in less than 5 minutes. Start the Server: Run the command below to start Mockario: npx @mockario/mockario start. This command will start: Mock server on port 3001, Web interface on port 5173, Automatically open browser. Create your First Endpoint: Access the web interface at http://localhost:5173, Click the New Endpoint button, Fill in the fields: Path, Method, Response, Click Save. Test the Endpoint: Now you can test your endpoint: curl http://localhost:3001/api/users.`,
+    contentPt: `Crie seu primeiro endpoint mock em menos de 5 minutos. Iniciar o Servidor: Execute o comando abaixo para iniciar o Mockario: npx @mockario/mockario start. Este comando ira iniciar: Servidor mock na porta 3001, Interface web na porta 5173, Abrir automaticamente o browser. Criar seu Primeiro Endpoint: Acesse a interface web em http://localhost:5173, Clique no botão New Endpoint, Preencha os campos: Path, Method, Response, Clique em Save. Testar o Endpoint: Agora você pode testar seu endpoint: curl http://localhost:3001/api/users.`,
   },
   {
     titleEn: "Endpoints",
@@ -87,8 +87,8 @@ export const docsPages: DocPage[] = [
     slug: "/docs/hooks",
     sectionEn: "Hooks",
     sectionPt: "Hooks",
-    contentEn: `Mockario provides React hooks for easy integration with your front-end. useMockEndpoints returns all endpoints and provides create, update, delete functions. useMockServer checks connection status to the mock server. useMockLogs returns request logs. MockarioProvider wraps your app and sets up React Query Client. Example: import { useMockEndpoints } from 'mockario', const { endpoints, isLoading, create, update, remove } = useMockEndpoints('http://localhost:3001').`,
-    contentPt: `O Mockario oferece hooks React para facilitar a integração com sua aplicação front-end. useMockEndpoints retorna todos os endpoints e fornece funções para criar, atualizar e deletar. useMockServer verifica o status da conexão com o servidor mock. useMockLogs retorna os logs de requisições. MockarioProvider envolve sua aplicação e configura o React Query Client. Exemplo: import { useMockEndpoints } from 'mockario', const { endpoints, isLoading, create, update, remove } = useMockEndpoints('http://localhost:3001').`,
+    contentEn: `Mockario provides React hooks for easy integration with your front-end. useMockEndpoints returns all endpoints and provides create, update, delete functions. useMockServer checks connection status to the mock server. useMockLogs returns request logs. MockarioProvider wraps your app and sets up React Query Client. Example: import { useMockEndpoints } from '@mockario/mockario', const { endpoints, isLoading, create, update, remove } = useMockEndpoints('http://localhost:3001').`,
+    contentPt: `O Mockario oferece hooks React para facilitar a integração com sua aplicação front-end. useMockEndpoints retorna todos os endpoints e fornece funções para criar, atualizar e deletar. useMockServer verifica o status da conexão com o servidor mock. useMockLogs retorna os logs de requisições. MockarioProvider envolve sua aplicação e configura o React Query Client. Exemplo: import { useMockEndpoints } from '@mockario/mockario', const { endpoints, isLoading, create, update, remove } = useMockEndpoints('http://localhost:3001').`,
   },
 ];
 
