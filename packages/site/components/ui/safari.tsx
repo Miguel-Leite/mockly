@@ -74,12 +74,11 @@ export function Safari({
       )}
 
       {!hasVideo && imageSrc && isAutoAspect ? (
-        <div className="relative w-full">
+        <div className="relative w-full rounded-lg overflow-hidden border border-border">
           <img
             src={imageSrc}
             alt=""
-            className={`w-full h-auto object-contain`}
-            style={{ objectPosition: 'top' }}
+            className="w-full h-auto block"
           />
         </div>
       ) : (
@@ -104,13 +103,14 @@ export function Safari({
         )
       )}
 
-      <svg
-        viewBox={`0 0 ${SAFARI_WIDTH} ${SAFARI_HEIGHT}`}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="absolute inset-0 z-10 size-full"
-        style={{ transform: "translateZ(0)" }}
-      >
+      {!isAutoAspect && (
+        <svg
+          viewBox={`0 0 ${SAFARI_WIDTH} ${SAFARI_HEIGHT}`}
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="absolute inset-0 z-10 size-full"
+          style={{ transform: "translateZ(0)" }}
+        >
         <defs>
           <mask id="safariPunch" maskUnits="userSpaceOnUse">
             <rect
@@ -253,6 +253,7 @@ export function Safari({
           ) : null}
         </g>
       </svg>
+      )}
     </div>
   )
 }
