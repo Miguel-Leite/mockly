@@ -29,7 +29,7 @@ With Mockario, you can create REST endpoints, define custom responses, simulate 
 ## Quick Start
 
 ```bash
-npx mockly start
+npx mockario start
 ```
 
 This opens:
@@ -55,7 +55,7 @@ This opens:
 - ✅ Request logging
 - ✅ Auto-create endpoints from requests
 - ✅ Stored data persistence
-- ✅ JSON data persistence (~/.mockly/data.json)
+- ✅ JSON data persistence (~/.mockario/data.json)
 
 ---
 
@@ -112,20 +112,20 @@ For complete documentation, see [ADVANCED.md](./ADVANCED.md).
 
 | Command | Description |
 |---------|-------------|
-| `npx mockly start` | Start server + web UI + open browser |
-| `npx mockly start --no-open` | Start without opening browser |
-| `npx mockly start -p 4000` | Custom server port |
-| `npx mockly start -w 3000` | Custom web port |
-| `npx mockly server` | Server only (port 3001) |
-| `npx mockly server -p 4000` | Custom server port |
-| `npx mockly web` | Web UI only (port 3001) |
+| `npx mockario start` | Start server + web UI + open browser |
+| `npx mockario start --no-open` | Start without opening browser |
+| `npx mockario start -p 4000` | Custom server port |
+| `npx mockario start -w 3000` | Custom web port |
+| `npx mockario server` | Server only (port 3001) |
+| `npx mockario server -p 4000` | Custom server port |
+| `npx mockario web` | Web UI only (port 3001) |
 
 ---
 
 ## Quick Example
 
 ```typescript
-import { startMockServer, endpointModel } from 'mockly';
+import { startMockServer, endpointModel } from 'mockario';
 
 const server = startMockServer({ port: 3001 });
 
