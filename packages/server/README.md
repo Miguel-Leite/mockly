@@ -15,7 +15,7 @@ npm install @mockario/mockario
 ### CLI (Recommended)
 
 ```bash
-npx mockario start
+npx @mockario/mockario start
 ```
 
 This opens:
