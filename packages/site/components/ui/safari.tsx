@@ -40,6 +40,7 @@ export function Safari({
   const safariAspectRatio = aspectRatio === "auto" 
     ? undefined 
     : (aspectRatio || `${SAFARI_WIDTH}/${SAFARI_HEIGHT}`)
+  const isAutoAspect = aspectRatio === "auto"
 
   return (
     <div
@@ -72,24 +73,35 @@ export function Safari({
         </div>
       )}
 
-      {!hasVideo && imageSrc && (
-        <div
-          className="pointer-events-none absolute z-0 overflow-hidden"
-          style={{
-            left: `${LEFT_PCT}%`,
-            top: `${TOP_PCT}%`,
-            width: `${WIDTH_PCT}%`,
-            height: `${HEIGHT_PCT}%`,
-            borderRadius: "0 0 11px 11px",
-          }}
-        >
+      {!hasVideo && imageSrc && isAutoAspect ? (
+        <div className="relative w-full">
           <img
             src={imageSrc}
             alt=""
-            className={`block size-full object-${imageFit}`}
+            className={`w-full h-auto object-contain`}
             style={{ objectPosition: 'top' }}
           />
         </div>
+      ) : (
+        !hasVideo && imageSrc && (
+          <div
+            className="pointer-events-none absolute z-0 overflow-hidden"
+            style={{
+              left: `${LEFT_PCT}%`,
+              top: `${TOP_PCT}%`,
+              width: `${WIDTH_PCT}%`,
+              height: `${HEIGHT_PCT}%`,
+              borderRadius: "0 0 11px 11px",
+            }}
+          >
+            <img
+              src={imageSrc}
+              alt=""
+              className={`block size-full object-${imageFit}`}
+              style={{ objectPosition: 'top' }}
+            />
+          </div>
+        )
       )}
 
       <svg
