@@ -21,6 +21,7 @@ export interface SafariProps extends HTMLAttributes<HTMLDivElement> {
   videoSrc?: string
   mode?: SafariMode
   imageFit?: "cover" | "contain" | "fill"
+  aspectRatio?: string
 }
 
 export function Safari({
@@ -29,18 +30,22 @@ export function Safari({
   url,
   mode = "default",
   imageFit = "cover",
+  aspectRatio,
   className,
   style,
   ...props
 }: SafariProps) {
   const hasVideo = !!videoSrc
   const hasMedia = hasVideo || !!imageSrc
+  const safariAspectRatio = aspectRatio === "auto" 
+    ? undefined 
+    : (aspectRatio || `${SAFARI_WIDTH}/${SAFARI_HEIGHT}`)
 
   return (
     <div
       className={`relative inline-block w-full align-middle leading-none ${className ?? ""}`}
       style={{
-        aspectRatio: `${SAFARI_WIDTH}/${SAFARI_HEIGHT}`,
+        ...(safariAspectRatio && { aspectRatio: safariAspectRatio }),
         ...style,
       }}
       {...props}

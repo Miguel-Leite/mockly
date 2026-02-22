@@ -30,7 +30,7 @@ export default function HttpClientPage() {
       </ol>
 
       <div className="my-8">
-        <Safari imageSrc="/http-client.png" url="mockario.com" />
+        <Safari imageSrc="/http-client.png" url="mockario.com" aspectRatio="auto" />
       </div>
 
       <h2>{t.docs.httpClient.selectEndpoint}</h2>

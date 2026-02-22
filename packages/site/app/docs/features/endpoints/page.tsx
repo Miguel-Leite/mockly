@@ -27,7 +27,7 @@ export default function EndpointsPage() {
       </ol>
 
       <div className="my-8">
-        <Safari imageSrc="/create-endpoint.png" url="mockario.com" />
+        <Safari imageSrc="/create-endpoint.png" url="mockario.com" aspectRatio="auto" />
       </div>
 
       <h3>{t.docs.endpoints.viaApi}</h3>

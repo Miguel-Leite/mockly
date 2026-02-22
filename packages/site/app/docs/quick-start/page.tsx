@@ -41,7 +41,7 @@ export default function QuickStartPage() {
       </ol>
 
       <div className="my-8">
-        <Safari imageSrc="/list-endpoints.png" url="localhost:3001" imageFit="contain" />
+        <Safari imageSrc="/list-endpoints.png" url="localhost:3001" imageFit="contain" aspectRatio="auto" />
       </div>
 
       <h2>{t.docs.quickStart.testEndpoint}</h2>
