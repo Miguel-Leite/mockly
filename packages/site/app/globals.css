@@ -131,6 +131,10 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
