@@ -5,21 +5,9 @@ import {
   Rocket,
   Code2,
   Globe,
-  Plug,
   CheckCircle2,
   Circle,
-  Loader2,
-  Container,
-  FileAudio,
-  Wifi,
-  GitBranch,
-  FileCode,
-  BarChart3,
-  Settings2,
-  MonitorPlay,
-  Users,
-  Boxes,
-  Server
+  Loader2
 } from "lucide-react";
 
 interface RoadmapItem {
