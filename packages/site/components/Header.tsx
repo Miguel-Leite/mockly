@@ -16,7 +16,7 @@ export function Header() {
   const menu = [
     { label: t.nav.docs, href: "/docs" },
     { label: t.nav.features, href: "/#features" },
-    { label: t.nav.playground, href: "/#playground" },
+    { label: t.nav.playground, href: "/playground" },
     { label: t.nav.blog, href: "/#blog" },
     { label: t.nav.roadmap, href: "/docs/roadmap" },
   ];
