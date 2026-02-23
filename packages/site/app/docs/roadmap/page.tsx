@@ -149,8 +149,8 @@ export default function RoadmapPage() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-green-600 text-white hover:bg-green-600/90 transition-colors"
           >
-            <Code2 className="h-4 w-4" />
-            {t.docs.roadmap.issues}
+            <Code2 className="h-4 w-4 text-white" />
+            <span className="text-white">{t.docs.roadmap.issues}</span>
           </a>
           <a
             href="https://github.com/Miguel-Leite/mockario/discussions"
