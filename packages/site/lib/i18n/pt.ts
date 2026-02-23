@@ -288,6 +288,67 @@ export const pt = {
       fullExampleDesc: "Aqui está um exemplo completo de como usar os hooks juntos:",
       noteAboutBaseUrl: "Nota: A URL base padrão é http://localhost:3001. Você pode alterá-la conforme necessário.",
     },
+    roadmap: {
+      title: "Roadmap",
+      description: "Veja o que vem por diante no Mockario e contribua para o projeto.",
+      comingNext: "Próximos",
+      inDevelopment: "Em Desenvolvimento",
+      considerations: "Em Consideração",
+      contributeTitle: "Contribuir para o Mockario",
+      contributeDescription: "Ajude a moldar o futuro do Mockario compartilhando suas ideias e feedback.",
+      issues: "Issues do GitHub",
+      discussions: "Discussões",
+      items: {
+        openApi: {
+          title: "Importação OpenAPI / Swagger",
+          description: "Importe specs de APIs existentes e gere endpoints mock automaticamente.",
+        },
+        docker: {
+          title: "Imagem Docker",
+          description: "Container Docker pronto para uso em produção local.",
+        },
+        recording: {
+          title: "Modo Gravação",
+          description: "Grave chamadas de API reais e converta automaticamente em mocks.",
+        },
+        websocket: {
+          title: "Suporte a WebSocket",
+          description: "Crie endpoints mock WebSocket para comunicação em tempo real.",
+        },
+        graphql: {
+          title: "Suporte a GraphQL",
+          description: "Crie endpoints mock GraphQL com validação de schema.",
+        },
+        scripting: {
+          title: "Scripting de Respostas",
+          description: "Adicione lógica JavaScript customizada para gerar respostas dinâmicas.",
+        },
+        analytics: {
+          title: "Dashboard de Analytics",
+          description: "Acompanhe uso da API, tempos de resposta e taxas de erro.",
+        },
+        environments: {
+          title: "Variáveis de Ambiente",
+          description: "Suporte a múltiplos ambientes (dev, staging, produção).",
+        },
+        vscode: {
+          title: "Extensão VS Code",
+          description: "Experiência de desenvolvimento integrada diretamente no VS Code.",
+        },
+        team: {
+          title: "Colaboração em Equipe",
+          description: "Compartilhe endpoints e schemas com membros da sua equipe.",
+        },
+        plugins: {
+          title: "Sistema de Plugins",
+          description: "Estenda a funcionalidade com plugins e integrações customizadas.",
+        },
+        grpc: {
+          title: "Suporte a gRPC",
+          description: "Crie endpoints mock para serviços gRPC.",
+        },
+      },
+    },
   },
   sidebar: {
     gettingStarted: "Primeiros Passos",
@@ -301,6 +362,7 @@ export const pt = {
     httpClient: "Cliente HTTP",
     apiReference: "Referência API",
     hooks: "Hooks",
+    roadmap: "Roadmap",
     overview: "Visão Geral",
     restApi: "REST API",
   },

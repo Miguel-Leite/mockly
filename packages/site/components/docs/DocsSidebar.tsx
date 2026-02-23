@@ -17,6 +17,7 @@ import {
   Send,
   FileText,
   Code2,
+  Map,
 } from "lucide-react";
 import { useTranslation } from "@/lib/i18n";
 
@@ -58,6 +59,13 @@ const navSections = [
     icon: FileText,
     items: [
       { titleKey: "restApi" as const, href: "/docs/api-reference" },
+    ],
+  },
+  {
+    titleKey: "roadmap" as const,
+    icon: Map,
+    items: [
+      { titleKey: "overview" as const, href: "/docs/roadmap" },
     ],
   },
 ];
