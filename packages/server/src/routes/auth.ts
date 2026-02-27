@@ -7,26 +7,22 @@ const router = Router();
 router.post('/login', (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
-    console.log('[Auth Route] /login called with username:', username);
 
     if (!username || !password) {
       return res.status(400).json({ error: 'Username and password required' });
     }
 
     const isEnabled = authModel.isEnabled();
-    console.log('[Auth Route] auth isEnabled:', isEnabled);
     if (!isEnabled) {
       return res.status(403).json({ error: 'Authentication is not enabled' });
     }
 
     const user = authModel.validateCredentials(username, password);
-    console.log('[Auth Route] user after validateCredentials:', user);
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     const authType = authModel.getAuthType();
-    console.log('[Auth Route] authType:', authType);
 
     if (authType === 'jwt' || authType === 'bearer') {
       const jwtSecret = authModel.getJwtSecret();
@@ -135,7 +131,6 @@ router.get('/settings', (_req: Request, res: Response) => {
   try {
     const settings = authModel.getSettings();
     const users = authModel.getUsers();
-    console.log('[Auth Route] /settings - enabled:', settings.enabled, 'users count:', users.length);
     res.json({ 
       ...settings, 
       users: users.map(u => ({ id: u.id, username: u.username, createdAt: u.createdAt })) 

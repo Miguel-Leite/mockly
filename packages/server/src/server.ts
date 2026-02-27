@@ -4,7 +4,7 @@ import path from 'path';
 import { WebSocketServer, WebSocket } from 'ws';
 import { endpointModel } from './models/Endpoint';
 import { wsEndpointModel } from './models/WsEndpoint';
-import { processObject, processFakerTemplate } from './utils/faker';
+import { processObject, processFakerTemplate, generateFromKeysWithTypes } from './utils/faker';
 import { logger } from './utils/logger';
 import mockRoutes from './routes/mockRoutes';
 import authRoutes from './routes/auth';
@@ -202,14 +202,24 @@ export class MockServer {
       }
     }
 
-    if (endpoint.storedData && endpoint.storedData.length > 0) {
-      if (Array.isArray(endpoint.response)) {
-        return endpoint.storedData;
-      }
-      return endpoint.storedData[endpoint.storedData.length - 1];
+    if (endpoint.responseKeys && endpoint.responseKeys.length > 0) {
+      const data = generateFromKeysWithTypes(endpoint.responseKeys, 1);
+      return data[0];
     }
 
-    return processObject(endpoint.response);
+    if (endpoint.storedData && endpoint.storedData.length > 0) {
+      const randomIndex = Math.floor(Math.random() * endpoint.storedData.length);
+      return processObject(endpoint.storedData[randomIndex]);
+    }
+
+    if (endpoint.response) {
+      const responseStr = JSON.stringify(endpoint.response);
+      if (responseStr.includes('{{faker')) {
+        return processObject(endpoint.response);
+      }
+    }
+
+    return endpoint.response;
   }
 
   public start(): Promise<void> {

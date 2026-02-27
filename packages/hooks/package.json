@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.0.0",
+    "@types/ws": "^8.18.1",
     "axios": "^1.7.0"
   },
   "devDependencies": {

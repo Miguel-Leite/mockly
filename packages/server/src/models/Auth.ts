@@ -46,29 +46,22 @@ export class AuthModel {
 
   constructor() {
     const storedSettings = storage.getAuthSettings();
-    console.log('[Auth] Stored settings:', JSON.stringify(storedSettings));
     this.settings = storedSettings || DEFAULT_AUTH_SETTINGS;
-    console.log('[Auth] Current settings:', JSON.stringify(this.settings));
     
     const storedUsers = storage.getUsers();
-    console.log('[Auth] Stored users:', storedUsers.length, storedUsers.map(u => u.username));
     this.users = new Map(storedUsers.map(u => [u.id, u]));
   }
 
   getSettings(): AuthSettings {
-    console.log('[Auth] getSettings called, returning:', JSON.stringify(this.settings));
     return this.settings;
   }
 
   updateSettings(settings: Partial<AuthSettings>): AuthSettings {
     const wasEnabled = this.settings.enabled;
-    console.log('[Auth] updateSettings called, wasEnabled:', wasEnabled, 'new settings:', JSON.stringify(settings));
     const newEnabled = settings.enabled !== undefined ? settings.enabled : this.settings.enabled;
     
     this.settings = { ...this.settings, ...settings };
-    console.log('[Auth] merged settings:', JSON.stringify(this.settings));
     storage.setAuthSettings(this.settings);
-    console.log('[Auth] settings saved to storage');
     
     if (!wasEnabled && newEnabled) {
       this.ensureAuthEndpoints();
@@ -164,18 +157,12 @@ export class AuthModel {
   }
 
   validateCredentials(username: string, password: string): User | null {
-    console.log('[Auth] validateCredentials called for:', username);
-    console.log('[Auth] users in memory:', Array.from(this.users.values()).map(u => u.username));
     const user = this.getUserByUsername(username);
     if (!user) {
-      console.log('[Auth] user not found');
       return null;
     }
 
-    console.log('[Auth] user found:', user.username, 'stored password hash:', user.password);
-    console.log('[Auth] input password:', password, 'hashed:', Buffer.from(password).toString('base64'));
     const verified = this.verifyPassword(password, user.password);
-    console.log('[Auth] password verified:', verified);
     if (verified) {
       return { ...user, password: '***' };
     }

@@ -6,11 +6,23 @@ import { WsEndpointForm } from '@/components/WsEndpointForm';
 import { wsEndpointsApi } from '@/services/api';
 import { toastError, toastSuccess } from '@/lib/toast';
 import type { MockWsEndpoint, CreateWsEndpointDto } from '@/types';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 export function WebSockets() {
   const [endpoints, setEndpoints] = useState<MockWsEndpoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [editingEndpoint, setEditingEndpoint] = useState<MockWsEndpoint | null>(null);
+  const [endpointToDelete, setEndpointToDelete] = useState<MockWsEndpoint | null>(null);
 
   const fetchEndpoints = useCallback(async () => {
     try {
@@ -50,14 +62,23 @@ export function WebSockets() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this endpoint?')) return;
+    const endpoint = endpoints.find(ep => ep.id === id);
+    if (endpoint) {
+      setEndpointToDelete(endpoint);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!endpointToDelete) return;
     
     try {
-      await wsEndpointsApi.delete(id);
+      await wsEndpointsApi.delete(endpointToDelete.id);
       toastSuccess('WebSocket endpoint deleted');
       fetchEndpoints();
     } catch (err) {
       toastError('Failed to delete endpoint');
+    } finally {
+      setEndpointToDelete(null);
     }
   };
 
@@ -96,21 +117,31 @@ export function WebSockets() {
             <WsEndpointForm onSubmit={handleCreate} />
           </div>
         ) : (
-          <div className="grid gap-4">
-            {endpoints.map((endpoint) => (
-              <WsEndpointCard
-                key={endpoint.id}
-                endpoint={endpoint}
-                onEdit={() => {
-                  const updatedPath = prompt('Enter new path:', endpoint.path);
-                  if (updatedPath !== null) {
-                    handleUpdate(endpoint.id, { path: updatedPath });
-                  }
+          <>
+            <div className="grid gap-4">
+              {endpoints.map((endpoint) => (
+                <WsEndpointCard
+                  key={endpoint.id}
+                  endpoint={endpoint}
+                  onEdit={() => setEditingEndpoint(endpoint)}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </div>
+
+            {editingEndpoint && (
+              <WsEndpointForm
+                endpoint={editingEndpoint}
+                onSubmit={(dto) => {
+                  handleUpdate(editingEndpoint.id, dto);
+                  setEditingEndpoint(null);
                 }}
-                onDelete={handleDelete}
+                trigger={<></>}
+                open={true}
+                onOpenChange={(open) => !open && setEditingEndpoint(null)}
               />
-            ))}
-          </div>
+            )}
+          </>
         )}
 
         <div className="mt-8 p-4 rounded-lg bg-neutral-900 border border-neutral-800">
@@ -122,6 +153,23 @@ export function WebSockets() {
             ws://localhost:3001{endpoints[0]?.path || '/ws/your-endpoint'}
           </code>
         </div>
+
+        <AlertDialog open={!!endpointToDelete} onOpenChange={(open) => !open && setEndpointToDelete(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete WebSocket Endpoint</AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to delete {endpointToDelete?.path}? This action cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => setEndpointToDelete(null)}>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleConfirmDelete} className="bg-red-600 hover:bg-red-700">
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </main>
     </div>
   );

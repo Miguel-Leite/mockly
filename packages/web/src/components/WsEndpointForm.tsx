@@ -14,10 +14,15 @@ interface WsEndpointFormProps {
   onSubmit: (dto: CreateWsEndpointDto) => void;
   endpoint?: MockWsEndpoint;
   trigger?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export function WsEndpointForm({ onSubmit, endpoint, trigger }: WsEndpointFormProps) {
-  const [open, setOpen] = useState(false);
+export function WsEndpointForm({ onSubmit, endpoint, trigger, open: externalOpen, onOpenChange }: WsEndpointFormProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  
+  const open = externalOpen ?? internalOpen;
+  const setOpen = onOpenChange ?? setInternalOpen;
   
   const [path, setPath] = useState('');
   const [eventType, setEventType] = useState<WsEventType>('message');

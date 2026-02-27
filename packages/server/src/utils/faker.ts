@@ -247,7 +247,7 @@ const knownFieldsToFaker: Record<string, string> = {
 };
 
 export function parseKeyWithType(key: string): { name: string; type: string } {
-  const match = key.match(/^(\w+):(\w+)$/);
+  const match = key.match(/^(\w+):([\w.]+)$/);
   if (match) {
     return { name: match[1], type: match[2] };
   }

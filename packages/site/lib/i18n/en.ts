@@ -327,6 +327,7 @@ export const en = {
     roadmap: {
       title: "Roadmap",
       description: "See what's coming next for Mockario and contribute to the project.",
+      completed: "Completed",
       comingNext: "Coming Next",
       inDevelopment: "In Development",
       considerations: "Under Considerations",

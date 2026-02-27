@@ -8,7 +8,7 @@ const program = new Command();
 program
   .name('mockario')
   .description('Mock APIs rapidinho - Server + UI for creating mock endpoints')
-  .version('1.2.0');
+  .version('1.2.3');
 
 program
   .command('start')

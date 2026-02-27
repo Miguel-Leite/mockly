@@ -7,7 +7,8 @@ import {
   Globe,
   CheckCircle2,
   Circle,
-  Loader2
+  Loader2,
+  Zap
 } from "lucide-react";
 
 interface RoadmapItem {
@@ -27,6 +28,13 @@ export default function RoadmapPage() {
 
   const phases: RoadmapPhase[] = [
     {
+      title: t.docs.roadmap.completed,
+      icon: CheckCircle2,
+      items: [
+        { title: t.docs.roadmap.items.websocket.title, description: t.docs.roadmap.items.websocket.description, status: "completed" },
+      ],
+    },
+    {
       title: t.docs.roadmap.comingNext,
       icon: Rocket,
       items: [
@@ -39,7 +47,6 @@ export default function RoadmapPage() {
       title: t.docs.roadmap.inDevelopment,
       icon: Loader2,
       items: [
-        { title: t.docs.roadmap.items.websocket.title, description: t.docs.roadmap.items.websocket.description, status: "in-progress" },
         { title: t.docs.roadmap.items.graphql.title, description: t.docs.roadmap.items.graphql.description, status: "in-progress" },
         { title: t.docs.roadmap.items.scripting.title, description: t.docs.roadmap.items.scripting.description, status: "in-progress" },
       ],

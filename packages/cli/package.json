@@ -12,10 +12,16 @@
     "build": "tsc",
     "start": "node dist/index.js"
   },
-  "keywords": ["mock", "api", "cli", "server"],
+  "keywords": [
+    "mock",
+    "api",
+    "cli",
+    "server"
+  ],
   "author": "Miguel Leite",
   "license": "MIT",
   "dependencies": {
+    "@types/ws": "^8.18.1",
     "commander": "^12.1.0",
     "open": "^10.0.0"
   },
